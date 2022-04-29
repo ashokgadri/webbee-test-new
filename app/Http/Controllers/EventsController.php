@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Event\EventResource;
 use App\Models\Event;
+use App\Repositories\Event\EventRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -11,6 +13,11 @@ use Illuminate\Support\Facades\Date;
 
 class EventsController extends BaseController
 {
+
+    public function __construct(private EventRepository $repository)
+    {
+    }
+
     /*
      Requirements:
     - maximum 2 sql queries
@@ -96,8 +103,18 @@ class EventsController extends BaseController
     ]
      */
 
-    public function getEventsWithWorkshops() {
-        throw new \Exception('implement in coding task 1');
+    public function getEventsWithWorkshops()
+    {
+        //throw new \Exception('implement in coding task 1');
+        $events = $this->repository->getEventsWithWorkshops();
+        return response()->json(EventResource::collection($events));
+    }
+
+    public function getEvents()
+    {
+        //throw new \Exception('implement in coding task 1');
+        $events = $this->repository->getEvents();
+        return response()->json(EventResource::collection($events));
     }
 
 
@@ -175,7 +192,10 @@ class EventsController extends BaseController
     ```
      */
 
-    public function getFutureEventsWithWorkshops() {
-        throw new \Exception('implement in coding task 2');
+    public function getFutureEventsWithWorkshops()
+    {
+        //throw new \Exception('implement in coding task 2');
+        $events = $this->repository->getFutureEventsWithWorkshops();
+        return response()->json(EventResource::collection($events));
     }
 }
